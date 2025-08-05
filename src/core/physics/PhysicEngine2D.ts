@@ -5,8 +5,10 @@ import { CircleCollider2D } from "@src/core/physics/CircleCollider2D";
 export class PhysicEngine2D {
   public physicPool: RigidBody2D[] = [];
   public constantForce: Vector2 = new Vector2(0, 0.981);
-  public subStepIteration = 1;
-  public simulationSpeed = 1;
+  public subStepIteration: number = 1;
+  public simulationSpeed: number = 1;
+  public gravity: boolean = true;
+  public simpleDrag: number = 0.99;
 
   constructor(
     public domain: Vector2,
@@ -31,12 +33,14 @@ export class PhysicEngine2D {
     const timestep = this.deltaTime * this.meterToPixel * this.simulationSpeed;
     for (let substep = 0; substep < this.subStepIteration; substep++) {
       // Environmental Force Apply
-      for (let i = 0; i < this.physicPool.length; i++) {
-        const rigidbody = this.physicPool[i];
-        rigidbody.AddForce(
-          timestep / this.subStepIteration,
-          this.constantForce
-        );
+      if (this.gravity) {
+        for (let i = 0; i < this.physicPool.length; i++) {
+          const rigidbody = this.physicPool[i];
+          rigidbody.AddForce(
+            timestep / this.subStepIteration,
+            this.constantForce
+          );
+        }
       }
 
       // Position Update
@@ -54,9 +58,9 @@ export class PhysicEngine2D {
     }
 
     // Simple Drag (maybe dt based exponential deduction application later)
-    // for (let i = 0; i < this.physicPool.length; i++) {
-    //   this.physicPool[i].velocity.MultiplyScalar(0.99);
-    // }
+    for (let i = 0; i < this.physicPool.length; i++) {
+      this.physicPool[i].velocity.MultiplyScalar(this.simpleDrag);
+    }
   }
 
   CircleToCircleCollisionCheck(rigidbody: RigidBody2D) {

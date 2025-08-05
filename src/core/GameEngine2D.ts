@@ -16,6 +16,7 @@ export class GameEngine2D {
 
   public objectPool: Object[] = [];
 
+  public onStart: () => void = () => {};
   public onKeyDown: (e: KeyboardEvent) => void = () => {};
   public onMouseMove: (e: MouseEvent) => void = () => {};
   public onMouseClick: (e: MouseEvent) => void = () => {};
@@ -42,6 +43,7 @@ export class GameEngine2D {
   }
 
   public start() {
+    this.onStart();
     setInterval(() => {
       this.physic.UpdatePhysics();
       this.render.Render();
