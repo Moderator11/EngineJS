@@ -4,7 +4,7 @@ import Example3 from "./examples/Example3";
 import "./style.css";
 
 (function () {
-  //Example1();
-  //Example2();
+  // Example1();
+  // Example2();
   Example3();
 })();
