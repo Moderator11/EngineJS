@@ -68,4 +68,11 @@ export class Vector2 {
   static RotationToVector(rotation: number): Vector2 {
     return new Vector2(Math.cos(rotation), Math.sin(rotation));
   }
+
+  static Lerp(vectorX: Vector2, vectorY: Vector2, t: number): Vector2 {
+    return new Vector2(
+      vectorX.x + (vectorY.x - vectorX.x) * t,
+      vectorX.y + (vectorY.y - vectorX.y) * t
+    );
+  }
 }

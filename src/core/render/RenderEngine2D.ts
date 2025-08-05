@@ -111,6 +111,8 @@ export class RenderEngine2D {
 
         this.ctx.restore();
       }
+
+      renderObject.onRender(this.ctx);
     }
     //requestAnimationFrame(Render);
   }
