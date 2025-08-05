@@ -62,15 +62,28 @@ import "./style.css";
         break;
       case "w":
         for (let i = 0; i < 10; i++) {
-          const ball = game.createNewEllipse(
+          const ellipse = game.createNewEllipse(
             (Math.random() + 1) * 10,
             (Math.random() + 1) * 10,
             "orange"
           );
-          ball.rigidbody.position.x = mouse.x;
-          ball.rigidbody.position.y = mouse.y;
-          ball.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
-          ball.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
+          ellipse.rigidbody.position.x = mouse.x;
+          ellipse.rigidbody.position.y = mouse.y;
+          ellipse.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
+          ellipse.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
+        }
+        break;
+      case "e":
+        for (let i = 0; i < 10; i++) {
+          const box = game.createNewBox(
+            (Math.random() + 1) * 10,
+            (Math.random() + 1) * 10,
+            "orange"
+          );
+          box.rigidbody.position.x = mouse.x;
+          box.rigidbody.position.y = mouse.y;
+          box.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
+          box.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
         }
         break;
     }
@@ -99,7 +112,8 @@ import "./style.css";
         <div>1: Simulation speed x0.5</div>
         <div>2: Simulation speed x2</div>
         <div>Q: Spawn orange ball</div>
-        <div>W: Spawn orange ball</div>
+        <div>W: Spawn orange ellipse</div>
+        <div>E: Spawn orange box</div>
       </fieldset>
       <fieldset>
         <legend>Mouse</legend>

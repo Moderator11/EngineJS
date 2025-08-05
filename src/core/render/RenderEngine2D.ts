@@ -1,5 +1,7 @@
+import { BoxMesh2D } from "./BoxMesh2D";
 import { CircleMesh2D } from "./CircleMesh2D";
 import { EllipseMesh2D } from "./EllipseMesh2D";
+import { Mesh2D } from "./Mesh2D";
 import { RenderBody2D } from "./RenderBody2D";
 
 export class RenderEngine2D {
@@ -74,6 +76,19 @@ export class RenderEngine2D {
           0,
           2 * Math.PI
         );
+        this.ctx.closePath();
+        this.ctx.fill();
+      }
+
+      if (renderObject.mesh instanceof BoxMesh2D) {
+        this.ctx.fillStyle = renderObject.mesh.color;
+        this.ctx.beginPath();
+
+        const x = renderObject.position.x;
+        const y = renderObject.position.y;
+        const w = renderObject.mesh.width;
+        const h = renderObject.mesh.height;
+        this.ctx.rect(x - w / 2, y - h / 2, w, h);
         this.ctx.closePath();
         this.ctx.fill();
       }
