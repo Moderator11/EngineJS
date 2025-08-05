@@ -107,7 +107,7 @@ export class PhysicEngine2D {
           if (velAlongNormal > 0) return;
 
           // 탄성 계수 1 (완전 탄성)
-          const e = 1.0 * 1;
+          const e = rigidbody.bounceFactor;
 
           const impulseMagnitude =
             (-(1 + e) * velAlongNormal) / (1 / m1 + 1 / m2);
@@ -124,7 +124,7 @@ export class PhysicEngine2D {
     if (!(rigidbody.collider instanceof CircleCollider2D)) return;
 
     const r = rigidbody.collider.radius;
-    const e = rigidbody.bounceFactor ?? 1; // 반발계수 (0..1). 1 = 완전 탄성
+    const e = rigidbody.bounceFactor; // 반발계수 (0..1). 1 = 완전 탄성
     const friction = 0; // 0 = 마찰 없음, 0.1..0.5 등
     const eps = 1e-6;
 

@@ -2,7 +2,7 @@ import { Vector2 } from "@src/utils/Vector2";
 import { Collider2D } from "@src/core/physics/Collider2D";
 
 export class RigidBody2D {
-  public bounceFactor: number = 1; //0.75;
+  public bounceFactor: number = 0.75;
 
   constructor(
     public mass: number,
