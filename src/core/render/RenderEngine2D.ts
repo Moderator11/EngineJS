@@ -45,6 +45,19 @@ export class RenderEngine2D {
     return canvas;
   }
 
+  PushRenderBody(renderBody: RenderBody2D) {
+    this.renderPool.push(renderBody);
+    this.SortRenderSequence();
+  }
+
+  PopRenderBody(renderBody: RenderBody2D) {
+    this.renderPool = this.renderPool.filter((rb) => rb !== renderBody);
+  }
+
+  SortRenderSequence() {
+    this.renderPool.sort((a, b) => a.renderPriority - b.renderPriority);
+  }
+
   Render() {
     this.ctx.clearRect(0, 0, this.cvs.width, this.cvs.height);
     for (let i = 0; i < this.renderPool.length; i++) {

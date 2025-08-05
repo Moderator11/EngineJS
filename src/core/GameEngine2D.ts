@@ -88,17 +88,13 @@ export class GameEngine2D {
 
   public create(object: Object) {
     this.objectPool.push(object);
-    this.physic.physicPool.push(object.rigidbody);
-    this.render.renderPool.push(object.renderbody);
+    this.physic.PushRigidBody(object.rigidbody);
+    this.render.PushRenderBody(object.renderbody);
   }
 
   public remove(object: Object) {
     this.objectPool = this.objectPool.filter((o) => o.uuid !== object.uuid);
-    this.physic.physicPool = this.physic.physicPool.filter(
-      (rb) => rb !== object.rigidbody
-    );
-    this.render.renderPool = this.render.renderPool.filter(
-      (rb) => rb !== object.renderbody
-    );
+    this.physic.PopRigidBody(object.rigidbody);
+    this.render.PopRenderBody(object.renderbody);
   }
 }

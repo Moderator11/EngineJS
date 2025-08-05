@@ -21,12 +21,17 @@ export class PhysicEngine2D {
     });
   }
 
-  AddNewBody(b: RigidBody2D) {
-    this.physicPool.push(b);
+  PushRigidBody(rigidBody: RigidBody2D) {
+    this.physicPool.push(rigidBody);
+    this.SortPhysicSequence();
   }
 
-  RemoveBall(b: RigidBody2D) {
-    this.physicPool = this.physicPool.filter((ball) => ball !== b);
+  PopRigidBody(rigidBody: RigidBody2D) {
+    this.physicPool = this.physicPool.filter((rb) => rb !== rigidBody);
+  }
+
+  SortPhysicSequence() {
+    this.physicPool.sort((a, b) => a.physicPriority - b.physicPriority);
   }
 
   UpdatePhysics() {

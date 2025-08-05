@@ -43,6 +43,7 @@ export default function Example3() {
   const head = game.createNewEllipse(22.5 / 2, 30 / 2, "#353743");
   head.rigidbody.collider.collidable = false;
   head.rigidbody.isStatic = true;
+  head.renderbody.renderPriority = 1;
   head.rigidbody.onPhysicUpdate = () => {
     head.rotation.LookAt(head.position, mouse);
     head.position.x = body.position.x + Math.cos(body.rotation.angle) * 5;

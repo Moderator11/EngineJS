@@ -3,6 +3,8 @@ import { Mesh2D } from "./Mesh2D";
 import { Rotation } from "@src/utils/Rotation";
 
 export class RenderBody2D {
+  public renderPriority: number = 0;
+
   constructor(
     public position: Vector2,
     public rotation: Rotation,
