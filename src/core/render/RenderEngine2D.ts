@@ -72,7 +72,7 @@ export class RenderEngine2D {
           renderObject.position.y,
           renderObject.mesh.radiusX,
           renderObject.mesh.radiusY,
-          0,
+          renderObject.rotation.angle,
           0,
           2 * Math.PI
         );
@@ -82,15 +82,21 @@ export class RenderEngine2D {
 
       if (renderObject.mesh instanceof BoxMesh2D) {
         this.ctx.fillStyle = renderObject.mesh.color;
-        this.ctx.beginPath();
+        this.ctx.save();
 
-        const x = renderObject.position.x;
-        const y = renderObject.position.y;
+        this.ctx.translate(renderObject.position.x, renderObject.position.y);
+        this.ctx.rotate(renderObject.rotation.angle);
+
         const w = renderObject.mesh.width;
         const h = renderObject.mesh.height;
-        this.ctx.rect(x - w / 2, y - h / 2, w, h);
+
+        this.ctx.fillStyle = renderObject.mesh.color;
+        this.ctx.beginPath();
+        this.ctx.rect(-w / 2, -h / 2, w, h);
         this.ctx.closePath();
         this.ctx.fill();
+
+        this.ctx.restore();
       }
     }
     //requestAnimationFrame(Render);

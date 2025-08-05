@@ -69,6 +69,7 @@ import "./style.css";
           );
           ellipse.rigidbody.position.x = mouse.x;
           ellipse.rigidbody.position.y = mouse.y;
+          ellipse.rotation.angle = Math.random() * Math.PI * 2;
           ellipse.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
           ellipse.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
         }
@@ -82,6 +83,7 @@ import "./style.css";
           );
           box.rigidbody.position.x = mouse.x;
           box.rigidbody.position.y = mouse.y;
+          box.rotation.angle = Math.random() * Math.PI * 2;
           box.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
           box.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
         }
