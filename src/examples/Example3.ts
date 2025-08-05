@@ -1,4 +1,4 @@
-import { Distance, Vector2 } from "@src//utils/Vector2";
+import { Vector2 } from "@src//utils/Vector2";
 import { GameEngine2D } from "@src/core/GameEngine2D";
 
 export default function Example3() {
@@ -21,7 +21,7 @@ export default function Example3() {
   body.onFrameUpdate = () => {
     body.rotation.LookAt(body.position, mouse);
 
-    if (Distance(body.position, mouse) < 80) {
+    if (Vector2.Distance(body.position, mouse) < 80) {
       body.rigidbody.AddForce(
         game.physic.deltaTime *
           game.physic.meterToPixel *
@@ -29,7 +29,7 @@ export default function Example3() {
         mouse.Clone().Subtract(body.position).Normalize().MultiplyScalar(-1)
       );
     }
-    if (Distance(body.position, mouse) > 100) {
+    if (Vector2.Distance(body.position, mouse) > 100) {
       body.rigidbody.AddForce(
         game.physic.deltaTime *
           game.physic.meterToPixel *

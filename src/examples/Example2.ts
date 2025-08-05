@@ -1,4 +1,4 @@
-import { Distance, Vector2 } from "@src//utils/Vector2";
+import { Vector2 } from "@src//utils/Vector2";
 import { GameEngine2D } from "@src/core/GameEngine2D";
 
 export default function Example2() {
@@ -21,7 +21,7 @@ export default function Example2() {
     follower.onFrameUpdate = () => {
       follower.rotation.LookAt(follower.position, mouse);
 
-      if (Distance(follower.position, mouse) < 80) {
+      if (Vector2.Distance(follower.position, mouse) < 80) {
         follower.rigidbody.AddForce(
           game.physic.deltaTime *
             game.physic.meterToPixel *
@@ -33,7 +33,7 @@ export default function Example2() {
             .MultiplyScalar(-1)
         );
       }
-      if (Distance(follower.position, mouse) > 100) {
+      if (Vector2.Distance(follower.position, mouse) > 100) {
         follower.rigidbody.AddForce(
           game.physic.deltaTime *
             game.physic.meterToPixel *

@@ -1,4 +1,4 @@
-import { Distance, MultiplyScalar, Vector2 } from "@src/utils/Vector2";
+import { Vector2 } from "@src/utils/Vector2";
 import { RigidBody2D } from "@src/core/physics/RigidBody2D";
 import { CircleCollider2D } from "@src/core/physics/CircleCollider2D";
 
@@ -82,7 +82,7 @@ export class PhysicEngine2D {
         if (!other.collider.collidable) continue;
         if (
           rigidbody.collider.radius + other.collider.radius >=
-          Distance(rigidbody.position, other.position)
+          Vector2.Distance(rigidbody.position, other.position)
         ) {
           //Penetration removal
           const eps = 1e-6;

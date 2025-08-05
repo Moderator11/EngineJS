@@ -44,25 +44,28 @@ export class Vector2 {
   Dot(vector: Vector2): number {
     return this.x * vector.x + this.y * vector.y;
   }
-}
 
-export function Add(vectorX: Vector2, VectorY: Vector2) {
-  return new Vector2(vectorX.x + VectorY.x, vectorX.y + VectorY.y);
-}
+  static Add(vectorX: Vector2, VectorY: Vector2) {
+    return new Vector2(vectorX.x + VectorY.x, vectorX.y + VectorY.y);
+  }
 
-export function MultiplyScalar(vector: Vector2, x: number) {
-  return new Vector2(vector.x * x, vector.y * x);
-}
+  static MultiplyScalar(vector: Vector2, x: number) {
+    return new Vector2(vector.x * x, vector.y * x);
+  }
 
-export function Normalize(vector: Vector2): Vector2 {
-  let l2norm = vector.Magnitude();
-  return new Vector2(vector.x / l2norm, vector.y / l2norm);
-}
+  static Normalize(vector: Vector2): Vector2 {
+    let l2norm = vector.Magnitude();
+    return new Vector2(vector.x / l2norm, vector.y / l2norm);
+  }
 
-export function Distance(vectorX: Vector2, vectorY: Vector2): number {
-  return new Vector2(vectorX.x - vectorY.x, vectorX.y - vectorY.y).Magnitude();
-}
+  static Distance(vectorX: Vector2, vectorY: Vector2): number {
+    return new Vector2(
+      vectorX.x - vectorY.x,
+      vectorX.y - vectorY.y
+    ).Magnitude();
+  }
 
-export function RotationToVector(rotation: number): Vector2 {
-  return new Vector2(Math.cos(rotation), Math.sin(rotation));
+  static RotationToVector(rotation: number): Vector2 {
+    return new Vector2(Math.cos(rotation), Math.sin(rotation));
+  }
 }
