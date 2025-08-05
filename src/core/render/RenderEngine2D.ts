@@ -1,4 +1,5 @@
 import { CircleMesh2D } from "./CircleMesh2D";
+import { EllipseMesh2D } from "./EllipseMesh2D";
 import { RenderBody2D } from "./RenderBody2D";
 
 export class RenderEngine2D {
@@ -54,6 +55,22 @@ export class RenderEngine2D {
           renderObject.position.x,
           renderObject.position.y,
           renderObject.mesh.radius,
+          0,
+          2 * Math.PI
+        );
+        this.ctx.closePath();
+        this.ctx.fill();
+      }
+
+      if (renderObject.mesh instanceof EllipseMesh2D) {
+        this.ctx.fillStyle = renderObject.mesh.color;
+        this.ctx.beginPath();
+        this.ctx.ellipse(
+          renderObject.position.x,
+          renderObject.position.y,
+          renderObject.mesh.radiusX,
+          renderObject.mesh.radiusY,
+          0,
           0,
           2 * Math.PI
         );

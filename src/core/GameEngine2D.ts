@@ -4,6 +4,7 @@ import { PhysicEngine2D } from "@src/core/physics/PhysicEngine2D";
 import { RenderEngine2D } from "@src/core/render/RenderEngine2D";
 import { CircleCollider2D } from "./physics/CircleCollider2D";
 import { CircleMesh2D } from "./render/CircleMesh2D";
+import { EllipseMesh2D } from "./render/EllipseMesh2D";
 
 export class GameEngine2D {
   private FRAME_PER_SECOND: number = 60;
@@ -52,6 +53,16 @@ export class GameEngine2D {
         object.onUpdate();
       }
     }, this.MS_PER_FRAME);
+  }
+
+  public createNewEllipse(radiusX: number, radiusY: number, color: string) {
+    const ellipse = new Object(
+      new Vector2(0, 0),
+      new CircleCollider2D(Math.max(radiusX, radiusY)),
+      new EllipseMesh2D(color, radiusX, radiusY)
+    );
+    this.create(ellipse);
+    return ellipse;
   }
 
   public createNewBall(radius: number, color: string) {

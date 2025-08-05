@@ -39,14 +39,7 @@ import "./style.css";
   };
 
   game.onMouseClick = (e) => {
-    if (e.button === 1) {
-      for (let i = 0; i < 10; i++) {
-        const ball = game.createNewBall(10, "orange");
-        ball.rigidbody.position.x = mouse.x;
-        ball.rigidbody.position.y = mouse.y;
-        ball.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
-        ball.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
-      }
+    if (e.button === 0) {
     }
   };
 
@@ -57,6 +50,28 @@ import "./style.css";
         break;
       case "2":
         game.physic.simulationSpeed *= 2;
+        break;
+      case "q":
+        for (let i = 0; i < 10; i++) {
+          const ball = game.createNewBall(10, "orange");
+          ball.rigidbody.position.x = mouse.x;
+          ball.rigidbody.position.y = mouse.y;
+          ball.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
+          ball.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
+        }
+        break;
+      case "w":
+        for (let i = 0; i < 10; i++) {
+          const ball = game.createNewEllipse(
+            (Math.random() + 1) * 10,
+            (Math.random() + 1) * 10,
+            "orange"
+          );
+          ball.rigidbody.position.x = mouse.x;
+          ball.rigidbody.position.y = mouse.y;
+          ball.rigidbody.velocity.x = (2 * Math.random() - 1) * 10;
+          ball.rigidbody.velocity.y = (2 * Math.random() - 1) * 10;
+        }
         break;
     }
     document.querySelector<HTMLDivElement>(
@@ -83,10 +98,12 @@ import "./style.css";
         <legend>Key</legend>
         <div>1: Simulation speed x0.5</div>
         <div>2: Simulation speed x2</div>
+        <div>Q: Spawn orange ball</div>
+        <div>W: Spawn orange ball</div>
       </fieldset>
       <fieldset>
         <legend>Mouse</legend>
-        <div>MMB: Spawn orange ball</div>
+        <div>LMB: None</div>
       </fieldset>
     </fieldset>
   `;
