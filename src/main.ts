@@ -23,6 +23,17 @@ import { GameEngine2D } from "@src/core/GameEngine2D";
     }
   };
 
+  game.onKeyDown = (e) => {
+    switch (e.key) {
+      case "1":
+        game.physic.simulationSpeed /= 2;
+        break;
+      case "2":
+        game.physic.simulationSpeed *= 2;
+        break;
+    }
+  };
+
   game.start();
 })();
 

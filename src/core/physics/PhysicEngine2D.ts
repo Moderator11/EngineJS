@@ -6,6 +6,7 @@ export class PhysicEngine2D {
   public physicPool: RigidBody2D[] = [];
   public constantForce: Vector2 = new Vector2(0, 0.981);
   public subStepIteration = 1;
+  public simulationSpeed = 1;
 
   constructor(
     public domain: Vector2,
@@ -27,22 +28,21 @@ export class PhysicEngine2D {
   }
 
   UpdatePhysics() {
+    const timestep = this.deltaTime * this.meterToPixel * this.simulationSpeed;
     for (let substep = 0; substep < this.subStepIteration; substep++) {
       // Environmental Force Apply
-      // for (let i = 0; i < this.physicPool.length; i++) {
-      //   const rigidbody = this.physicPool[i];
-      //   rigidbody.AddForce(
-      //     (this.deltaTime * this.meterToPixel) / subStepIteration,
-      //     this.constantForce
-      //   );
-      // }
+      for (let i = 0; i < this.physicPool.length; i++) {
+        const rigidbody = this.physicPool[i];
+        rigidbody.AddForce(
+          timestep / this.subStepIteration,
+          this.constantForce
+        );
+      }
 
       // Position Update
       for (let i = 0; i < this.physicPool.length; i++) {
         const rigidbody = this.physicPool[i];
-        rigidbody.UpdatePosition(
-          (this.deltaTime * this.meterToPixel) / this.subStepIteration
-        );
+        rigidbody.UpdatePosition(timestep / this.subStepIteration);
       }
 
       // Collision Check

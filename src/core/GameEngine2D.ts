@@ -11,8 +11,9 @@ export class GameEngine2D {
   private MS_PER_FRAME: number = this.SECOND_PER_FRAME * 1000;
   private METER_TO_PIXEL: number = 50;
 
-  private render: RenderEngine2D;
-  private physic: PhysicEngine2D;
+  public render: RenderEngine2D;
+  public physic: PhysicEngine2D;
+
   public objectPool: Object[] = [];
 
   public onKeyDown: (e: KeyboardEvent) => void = () => {};
