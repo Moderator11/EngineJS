@@ -51,7 +51,7 @@ export class GameEngine2D {
       this.render.Render();
       for (let i = 0; i < this.objectPool.length; i++) {
         const object = this.objectPool[i];
-        object.onUpdate();
+        object.onFrameUpdate();
       }
     }, this.MS_PER_FRAME);
   }

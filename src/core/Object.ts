@@ -13,7 +13,7 @@ export class Object {
   public rigidbody: RigidBody2D;
   public renderbody: RenderBody2D;
 
-  public onUpdate: () => void = () => {};
+  public onFrameUpdate: () => void = () => {};
 
   constructor(
     position: Vector2 = new Vector2(0, 0),

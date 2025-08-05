@@ -36,6 +36,7 @@ export class PhysicEngine2D {
       if (this.gravity) {
         for (let i = 0; i < this.physicPool.length; i++) {
           const rigidbody = this.physicPool[i];
+          if (rigidbody.isStatic) continue;
           rigidbody.AddForce(
             timestep / this.subStepIteration,
             this.constantForce
@@ -46,14 +47,22 @@ export class PhysicEngine2D {
       // Position Update
       for (let i = 0; i < this.physicPool.length; i++) {
         const rigidbody = this.physicPool[i];
+        if (rigidbody.isStatic) continue;
         rigidbody.UpdatePosition(timestep / this.subStepIteration);
       }
 
       // Collision Check
       for (let i = 0; i < this.physicPool.length; i++) {
         const rigidbody = this.physicPool[i];
+        if (!rigidbody.collider.collidable) continue;
         this.CircleToCircleCollisionCheck(rigidbody);
         this.CircleToWallCollisionCheck(rigidbody);
+      }
+
+      // Custom Update function call
+      for (let i = 0; i < this.physicPool.length; i++) {
+        const rigidbody = this.physicPool[i];
+        rigidbody.onPhysicUpdate();
       }
     }
 
@@ -70,6 +79,7 @@ export class PhysicEngine2D {
       ) as (RigidBody2D & { collider: CircleCollider2D })[];
       for (let i = 0; i < circlePool.length; i++) {
         const other = circlePool[i];
+        if (!other.collider.collidable) continue;
         if (
           rigidbody.collider.radius + other.collider.radius >=
           Distance(rigidbody.position, other.position)

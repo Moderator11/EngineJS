@@ -3,6 +3,8 @@ import { Collider2D } from "@src/core/physics/Collider2D";
 
 export class RigidBody2D {
   public bounceFactor: number = 0.75;
+  public isStatic: boolean = false;
+  public onPhysicUpdate: () => void = () => {};
 
   constructor(
     public mass: number,
