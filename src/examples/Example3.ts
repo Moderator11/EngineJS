@@ -1,5 +1,6 @@
 import { Vector2 } from "@src//utils/Vector2";
 import { GameEngine2D } from "@src/core/GameEngine2D";
+import { EllipseMesh2D } from "@src/core/render/EllipseMesh2D";
 
 export default function Example3() {
   const game = new GameEngine2D();
@@ -81,9 +82,10 @@ export default function Example3() {
   cock.rigidbody.collider.collidable = false;
   cock.rigidbody.isStatic = true;
   cock.rigidbody.onPhysicUpdate = () => {
+    const forward = head.rotation.Vector().MultiplyScalar(10);
     cock.rotation.angle = head.rotation.angle;
-    cock.position.x = head.position.x + Math.cos(head.rotation.angle) * 10;
-    cock.position.y = head.position.y + Math.sin(head.rotation.angle) * 10;
+    cock.position.x = head.position.x + forward.x;
+    cock.position.y = head.position.y + forward.y;
   };
 
   const leftFeetTarget = body.position.Clone();
@@ -96,14 +98,12 @@ export default function Example3() {
   game.render.SortRenderSequence();
   leftFeet.rigidbody.onPhysicUpdate = () => {
     leftFeet.rotation.angle = body.rotation.angle;
-    const forward = new Vector2(
-      Math.cos(body.rotation.angle),
-      Math.sin(body.rotation.angle)
-    ).MultiplyScalar(20);
-    const normal = new Vector2(
-      Math.cos(body.rotation.angle + Math.PI / 2),
-      Math.sin(body.rotation.angle + Math.PI / 2)
-    ).MultiplyScalar(20);
+    const forward = body.rotation.Vector().MultiplyScalar(20);
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(20);
     const desiredPosition = body.position.Clone().Add(forward).Add(normal);
     if (Vector2.Distance(desiredPosition, leftFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(leftFeet.position);
@@ -114,12 +114,12 @@ export default function Example3() {
     leftFeet.position.y = lerped.y;
   };
   leftFeet.renderbody.onRender = (ctx) => {
-    const normal = new Vector2(
-      Math.cos(body.rotation.angle + Math.PI / 2),
-      Math.sin(body.rotation.angle + Math.PI / 2)
-    );
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector();
     ctx.strokeStyle = "orange";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 8;
     ctx.beginPath();
     ctx.moveTo(leftFeet.position.x, leftFeet.position.y);
     const to = body.position.Clone().Add(normal.MultiplyScalar(10));
@@ -137,14 +137,12 @@ export default function Example3() {
   game.render.SortRenderSequence();
   rightFeet.rigidbody.onPhysicUpdate = () => {
     rightFeet.rotation.angle = body.rotation.angle;
-    const forward = new Vector2(
-      Math.cos(body.rotation.angle),
-      Math.sin(body.rotation.angle)
-    ).MultiplyScalar(20);
-    const normal = new Vector2(
-      Math.cos(body.rotation.angle + Math.PI / 2),
-      Math.sin(body.rotation.angle + Math.PI / 2)
-    ).MultiplyScalar(-20);
+    const forward = body.rotation.Vector().MultiplyScalar(20);
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(-20);
     const desiredPosition = body.position.Clone().Add(forward).Add(normal);
     if (Vector2.Distance(desiredPosition, rightFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(rightFeet.position);
@@ -155,16 +153,132 @@ export default function Example3() {
     rightFeet.position.y = lerped.y;
   };
   rightFeet.renderbody.onRender = (ctx) => {
-    const normal = new Vector2(
-      Math.cos(body.rotation.angle + Math.PI / 2),
-      Math.sin(body.rotation.angle + Math.PI / 2)
-    );
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector();
     ctx.strokeStyle = "orange";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 8;
     ctx.beginPath();
     ctx.moveTo(rightFeet.position.x, rightFeet.position.y);
     const to = body.position.Clone().Add(normal.MultiplyScalar(-10));
     ctx.lineTo(to.x, to.y);
     ctx.stroke();
+  };
+
+  const leftFacialArea = game.createNewEllipse(8, 5, "white");
+  leftFacialArea.rigidbody.collider.collidable = false;
+  leftFacialArea.rigidbody.isStatic = true;
+  leftFacialArea.renderbody.renderPriority = 2;
+  game.render.SortRenderSequence();
+  leftFacialArea.rigidbody.onPhysicUpdate = () => {
+    leftFacialArea.rotation.angle = head.rotation.angle + 1;
+    const forward = head.rotation.Vector().MultiplyScalar(5.5);
+    const normal = head.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(-5);
+    leftFacialArea.position.x = head.position.x + forward.x + normal.x;
+    leftFacialArea.position.y = head.position.y + forward.y + normal.y;
+  };
+
+  const rightFacialArea = game.createNewEllipse(8, 5, "white");
+  rightFacialArea.rigidbody.collider.collidable = false;
+  rightFacialArea.rigidbody.isStatic = true;
+  rightFacialArea.renderbody.renderPriority = 2;
+  game.render.SortRenderSequence();
+  rightFacialArea.rigidbody.onPhysicUpdate = () => {
+    rightFacialArea.rotation.angle = head.rotation.angle - 1;
+    const forward = head.rotation.Vector().MultiplyScalar(5.5);
+    const normal = head.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(5);
+    rightFacialArea.position.x = head.position.x + forward.x + normal.x;
+    rightFacialArea.position.y = head.position.y + forward.y + normal.y;
+  };
+
+  const leftEye = game.createNewEllipse(2, 2, "black");
+  leftEye.rigidbody.collider.collidable = false;
+  leftEye.rigidbody.isStatic = true;
+  leftEye.renderbody.renderPriority = 3;
+  game.render.SortRenderSequence();
+  leftEye.rigidbody.onPhysicUpdate = () => {
+    leftEye.rotation.angle = head.rotation.angle + 1;
+    const forward = head.rotation.Vector().MultiplyScalar(8);
+    const normal = head.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(-6);
+    leftEye.position.x = head.position.x + forward.x + normal.x;
+    leftEye.position.y = head.position.y + forward.y + normal.y;
+  };
+
+  const rightEye = game.createNewEllipse(2, 2, "black");
+  rightEye.rigidbody.collider.collidable = false;
+  rightEye.rigidbody.isStatic = true;
+  rightEye.renderbody.renderPriority = 3;
+  game.render.SortRenderSequence();
+  rightEye.rigidbody.onPhysicUpdate = () => {
+    rightEye.rotation.angle = head.rotation.angle - 1;
+    const forward = head.rotation.Vector().MultiplyScalar(8);
+    const normal = head.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(6);
+    rightEye.position.x = head.position.x + forward.x + normal.x;
+    rightEye.position.y = head.position.y + forward.y + normal.y;
+  };
+
+  const leftArm = game.createNewEllipse(15, 5, "#b5b8bd");
+  leftArm.rigidbody.collider.collidable = false;
+  leftArm.rigidbody.isStatic = true;
+  leftArm.renderbody.renderPriority = 3;
+  game.render.SortRenderSequence();
+  leftArm.rigidbody.onPhysicUpdate = () => {
+    const velocitySize = body.rigidbody.velocity.Magnitude();
+    const swing =
+      (Math.sin((Date.now() * game.physic.simulationSpeed) / 50) *
+        velocitySize) /
+      25;
+
+    (leftArm.renderbody.mesh as EllipseMesh2D).radiusX = velocitySize + 5;
+
+    leftArm.rotation.angle = body.rotation.angle + Math.PI / 2 + swing * 2;
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(29);
+    leftArm.position.x = head.position.x + normal.x;
+    leftArm.position.y = head.position.y + normal.y;
+  };
+
+  const rightArm = game.createNewEllipse(15, 5, "#b5b8bd");
+  rightArm.rigidbody.collider.collidable = false;
+  rightArm.rigidbody.isStatic = true;
+  rightArm.renderbody.renderPriority = 3;
+  game.render.SortRenderSequence();
+  rightArm.rigidbody.onPhysicUpdate = () => {
+    const velocitySize = body.rigidbody.velocity.Magnitude();
+    const swing =
+      (Math.sin((Date.now() * game.physic.simulationSpeed) / 50) *
+        velocitySize) /
+      25;
+
+    (rightArm.renderbody.mesh as EllipseMesh2D).radiusX = velocitySize + 5;
+
+    rightArm.rotation.angle = body.rotation.angle + Math.PI / 2 + swing * 2;
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(-29);
+    rightArm.position.x = head.position.x + normal.x;
+    rightArm.position.y = head.position.y + normal.y;
   };
 }
