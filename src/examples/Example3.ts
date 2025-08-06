@@ -16,6 +16,13 @@ export default function Example3() {
 
   game.start();
 
+  const PENGUIN_COUNT = 4;
+  for (let i = 0; i < PENGUIN_COUNT; i++) {
+    spawnPenguin(game, mouse);
+  }
+}
+
+function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
   const body = game.createNewEllipse(22.5, 30, "#b5b8bd");
   body.position.x = window.innerWidth / 2;
   body.position.y = window.innerHeight / 2;
