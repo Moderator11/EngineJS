@@ -11,4 +11,17 @@ export class Rotation {
   Degree() {
     return this.angle * (180 / Math.PI);
   }
+
+  Vector() {
+    return new Vector2(Math.cos(this.angle), Math.sin(this.angle));
+  }
+
+  Clone() {
+    return new Rotation(this.angle);
+  }
+
+  Rotate(rotation: number) {
+    this.angle += rotation;
+    return this;
+  }
 }

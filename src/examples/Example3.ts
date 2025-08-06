@@ -31,6 +31,11 @@ export default function Example3() {
 
   body.onFrameUpdate = () => {
     body.rotation.LookAt(body.position, mouse);
+    const velocitySize = body.rigidbody.velocity.Magnitude();
+    body.rotation.angle +=
+      (Math.sin((Date.now() * game.physic.simulationSpeed) / 50) *
+        velocitySize) /
+      25;
 
     body.rigidbody.AddForce(
       game.physic.deltaTime *
@@ -53,9 +58,23 @@ export default function Example3() {
   head.renderbody.renderPriority = 1;
   game.render.SortRenderSequence();
   head.rigidbody.onPhysicUpdate = () => {
+    const velocitySize = body.rigidbody.velocity.Magnitude();
+    let bobbing =
+      ((Math.sin((Date.now() * game.physic.simulationSpeed) / 50) + 1) *
+        velocitySize) /
+      10;
+
     head.rotation.LookAt(head.position, mouse);
-    head.position.x = body.position.x + Math.cos(body.rotation.angle) * 5;
-    head.position.y = body.position.y + Math.sin(body.rotation.angle) * 5;
+
+    const forward = body.rotation.Vector().MultiplyScalar(velocitySize);
+    const normal = body.rotation
+      .Clone()
+      .Rotate(Math.PI / 2)
+      .Vector()
+      .MultiplyScalar(bobbing);
+
+    head.position.x = body.position.x + forward.x + normal.x;
+    head.position.y = body.position.y + forward.y + normal.y;
   };
 
   const cock = game.createNewEllipse(10, 5, "orange");
@@ -90,7 +109,7 @@ export default function Example3() {
       const target = desiredPosition.Clone().Subtract(leftFeet.position);
       leftFeetTarget.Add(target.MultiplyScalar(1.75));
     }
-    const lerped = Vector2.Lerp(leftFeet.position, leftFeetTarget, 0.1);
+    const lerped = Vector2.Lerp(leftFeet.position, leftFeetTarget, 0.2);
     leftFeet.position.x = lerped.x;
     leftFeet.position.y = lerped.y;
   };
@@ -131,7 +150,7 @@ export default function Example3() {
       const target = desiredPosition.Clone().Subtract(rightFeet.position);
       rightFeetTarget.Add(target.MultiplyScalar(1.75));
     }
-    const lerped = Vector2.Lerp(rightFeet.position, rightFeetTarget, 0.1);
+    const lerped = Vector2.Lerp(rightFeet.position, rightFeetTarget, 0.2);
     rightFeet.position.x = lerped.x;
     rightFeet.position.y = lerped.y;
   };
