@@ -3,6 +3,7 @@ import { GameEngine2D } from "@src/core/GameEngine2D";
 import { EllipseMesh2D } from "@src/core/render/EllipseMesh2D";
 
 export default function Example3() {
+  setupHTML();
   const game = new GameEngine2D();
 
   let mouse: Vector2 = new Vector2(0, 0);
@@ -114,6 +115,7 @@ function spawnBabyPenguin(game: GameEngine2D, mouse: Vector2) {
     if (Vector2.Distance(desiredPosition, leftFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(leftFeet.position);
       leftFeetTarget.Add(target.MultiplyScalar(1.75));
+      playFootstepSound();
     }
     const lerped = Vector2.Lerp(leftFeet.position, leftFeetTarget, 0.2);
     leftFeet.position.x = lerped.x;
@@ -153,6 +155,7 @@ function spawnBabyPenguin(game: GameEngine2D, mouse: Vector2) {
     if (Vector2.Distance(desiredPosition, rightFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(rightFeet.position);
       rightFeetTarget.Add(target.MultiplyScalar(1.75));
+      playFootstepSound();
     }
     const lerped = Vector2.Lerp(rightFeet.position, rightFeetTarget, 0.2);
     rightFeet.position.x = lerped.x;
@@ -287,6 +290,20 @@ function spawnBabyPenguin(game: GameEngine2D, mouse: Vector2) {
     rightArm.position.x = head.position.x + normal.x;
     rightArm.position.y = head.position.y + normal.y;
   };
+
+  let lastFootstepTime = 0;
+
+  function playFootstepSound() {
+    const now = Date.now();
+    const interval = 100;
+
+    if (now - lastFootstepTime > interval) {
+      const step = new Audio("/src/examples/audio/foot_slap.mp3");
+      step.volume = 0.2;
+      step.play().catch(() => {});
+      lastFootstepTime = now;
+    }
+  }
 }
 
 function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
@@ -363,6 +380,37 @@ function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
     cock.position.x = head.position.x + forward.x;
     cock.position.y = head.position.y + forward.y;
   };
+  let before = Date.now();
+  const noot1 = new Audio("/src/examples/audio/noot_noot.mp3");
+  const noot2 = new Audio("/src/examples/audio/noot_start.mp3");
+  const noot3 = new Audio("/src/examples/audio/noot_end.mp3");
+  cock.onFrameUpdate = () => {
+    if (Date.now() - before > 1000) {
+      // every 1 seccond
+      if (Math.random() > 0.9) {
+        // 10 percent
+        const which = Math.floor(Math.random() * 3);
+        switch (which) {
+          case 0:
+            noot1.play();
+            break;
+          case 1:
+            noot2.play();
+            break;
+          case 2:
+            noot3.play();
+            break;
+        }
+      }
+      before = Date.now();
+    }
+    if (!(noot1.paused && noot2.paused && noot3.paused)) {
+      (cock.renderbody.mesh as EllipseMesh2D).radiusX +=
+        Math.sin(Date.now() / 60) / 2;
+    } else {
+      (cock.renderbody.mesh as EllipseMesh2D).radiusX = 10;
+    }
+  };
 
   const belly = game.createNewEllipse(10, 20, "white");
   belly.rigidbody.collider.collidable = false;
@@ -396,6 +444,7 @@ function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
     if (Vector2.Distance(desiredPosition, leftFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(leftFeet.position);
       leftFeetTarget.Add(target.MultiplyScalar(1.75));
+      playFootstepSound();
     }
     const lerped = Vector2.Lerp(leftFeet.position, leftFeetTarget, 0.2);
     leftFeet.position.x = lerped.x;
@@ -435,6 +484,7 @@ function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
     if (Vector2.Distance(desiredPosition, rightFeet.position) > 40) {
       const target = desiredPosition.Clone().Subtract(rightFeet.position);
       rightFeetTarget.Add(target.MultiplyScalar(1.75));
+      playFootstepSound();
     }
     const lerped = Vector2.Lerp(rightFeet.position, rightFeetTarget, 0.2);
     rightFeet.position.x = lerped.x;
@@ -569,4 +619,25 @@ function spawnPenguin(game: GameEngine2D, mouse: Vector2) {
     rightArm.position.x = head.position.x + normal.x;
     rightArm.position.y = head.position.y + normal.y;
   };
+
+  let lastFootstepTime = 0;
+
+  function playFootstepSound() {
+    const now = Date.now();
+    const interval = 100;
+
+    if (now - lastFootstepTime > interval) {
+      const step = new Audio("/src/examples/audio/foot_slap.mp3");
+      step.volume = 0.25;
+      step.play().catch(() => {});
+      lastFootstepTime = now;
+    }
+  }
+}
+
+function setupHTML() {
+  document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+  <h1>Penguin</h1>
+  <div>This example contains sound effects, please allow your browser to play audio automatically by <strong>clicking anywhere at least once.</strong></div>
+`;
 }
