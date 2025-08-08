@@ -21,7 +21,8 @@ export class GameEngine2D {
   public onStart: () => void = () => {};
   public onKeyDown: (e: KeyboardEvent) => void = () => {};
   public onMouseMove: (e: MouseEvent) => void = () => {};
-  public onMouseClick: (e: MouseEvent) => void = () => {};
+  public onMouseDown: (e: MouseEvent) => void = () => {};
+  public onMouseUp: (e: MouseEvent) => void = () => {};
 
   constructor() {
     this.render = new RenderEngine2D(window);
@@ -40,7 +41,11 @@ export class GameEngine2D {
     });
 
     window.addEventListener("mousedown", (e) => {
-      this.onMouseClick(e);
+      this.onMouseDown(e);
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      this.onMouseUp(e);
     });
   }
 

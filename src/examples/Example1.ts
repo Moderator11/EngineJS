@@ -37,7 +37,7 @@ export default function Example1() {
     mouse.y = e.y;
   };
 
-  game.onMouseClick = (e) => {
+  game.onMouseDown = (e) => {
     if (e.button === 0) {
     }
   };
