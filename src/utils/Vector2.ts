@@ -45,6 +45,12 @@ export class Vector2 {
     return this.x * vector.x + this.y * vector.y;
   }
 
+  Set(vector: Vector2): Vector2 {
+    this.x = vector.x;
+    this.y = vector.y;
+    return this;
+  }
+
   static Add(vectorX: Vector2, VectorY: Vector2) {
     return new Vector2(vectorX.x + VectorY.x, vectorX.y + VectorY.y);
   }
@@ -74,5 +80,18 @@ export class Vector2 {
       vectorX.x + (vectorY.x - vectorX.x) * t,
       vectorX.y + (vectorY.y - vectorX.y) * t
     );
+  }
+
+  static RotatedOffsetPosition(
+    targetPosition: Vector2,
+    rotation: number,
+    mainOffset: number,
+    subOffset: number
+  ): Vector2 {
+    const mainAxis = this.RotationToVector(rotation).MultiplyScalar(mainOffset);
+    const subAxis = this.RotationToVector(
+      rotation + Math.PI / 2
+    ).MultiplyScalar(subOffset);
+    return targetPosition.Clone().Add(mainAxis).Add(subAxis);
   }
 }
